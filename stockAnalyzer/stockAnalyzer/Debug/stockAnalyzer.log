@@ -1,0 +1,58 @@
+﻿  Source.cpp
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(77): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(116): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(181): note: see declaration of 'strerror'
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(169): warning C4244: 'return': conversion from 'std::streamsize' to 'int', possible loss of data
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(185): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(332): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(420): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(501): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(517): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(239): warning C4018: '<': signed/unsigned mismatch
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(245): warning C4018: '<': signed/unsigned mismatch
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(142): warning C4102: 'std': unreferenced label
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(390): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(395): warning C4018: '<': signed/unsigned mismatch
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(396): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(406): warning C4018: '<': signed/unsigned mismatch
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(441): warning C4018: '<': signed/unsigned mismatch
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(444): warning C4018: '<': signed/unsigned mismatch
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(788): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(791): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(925): warning C4244: 'initializing': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(1080): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(1083): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(1131): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(1148): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(1203): warning C4018: '<': signed/unsigned mismatch
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(1310): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(1045): warning C4305: '=': truncation from 'double' to 'float'
+  c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(1071): note: see reference to function template instantiation 'void io::detail::parse_float<float>(const char *,T &)' being compiled
+          with
+          [
+              T=float
+          ]
+  c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(1203): note: see reference to function template instantiation 'void io::detail::parse<overflow_policy>(char *,float &)' being compiled
+          with
+          [
+              overflow_policy=io::throw_on_overflow
+          ]
+  c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(1237): note: see reference to function template instantiation 'void io::CSVReader<6,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::parse_helper<float,float,float,float,std::string,std::string>(::size_t,T &,float &,float &,float &,std::string &,std::string &)' being compiled
+          with
+          [
+              T=float
+          ]
+  c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\csv.h(1237): note: see reference to function template instantiation 'void io::CSVReader<6,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::parse_helper<float,float,float,float,std::string,std::string>(::size_t,T &,float &,float &,float &,std::string &,std::string &)' being compiled
+          with
+          [
+              T=float
+          ]
+  c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(1303): note: see reference to function template instantiation 'bool io::CSVReader<6,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::read_row<float,float,float,float,std::string,std::string>(float &,float &,float &,float &,std::string &,std::string &)' being compiled
+  c:\users\benlo\documents\visual studio 2017\projects\stockanalyzer\stockanalyzer\source.cpp(1303): note: see reference to function template instantiation 'bool io::CSVReader<6,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::read_row<float,float,float,float,std::string,std::string>(float &,float &,float &,float &,std::string &,std::string &)' being compiled
+  stockAnalyzer.vcxproj -> C:\Users\benlo\documents\visual studio 2017\Projects\stockAnalyzer\Debug\stockAnalyzer.exe
+  stockAnalyzer.vcxproj -> C:\Users\benlo\documents\visual studio 2017\Projects\stockAnalyzer\Debug\stockAnalyzer.pdb (Partial PDB)
