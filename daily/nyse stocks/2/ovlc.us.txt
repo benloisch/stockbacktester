@@ -1,2 +1,2 @@
-Date,Time,Open,High,Low,Close,Volume,OpenInt
-2018-03-29,21:00:00,29.505,29.505,29.505,29.505,105,0
+Date,Open,High,Low,Close,Volume,OpenInt
+2018-03-29,29.505,29.505,29.505,29.505,105,0
