@@ -6,6 +6,7 @@
 #include <io.h>
 #include <fstream>
 #include <limits>
+#include <string>
 using namespace std;
 
 #include "csv.h"
@@ -130,7 +131,7 @@ void loadEquityFolder(string folderPath, string equityType, string specificEquit
 
 	string directory = folderPath;
 
-	io::CSVReader<3> inCapAndIndustry("C:\\Users\\benlo\\Documents\\Stock Data\\data\\tickerData\\tickerCapIndustry.csv");
+	io::CSVReader<3> inCapAndIndustry("C:\\Github\\stockbacktester-master\\tickerData\\tickerCapIndustry.csv");
 	try {
 		inCapAndIndustry.read_header(io::ignore_extra_column, "Ticker", "Market Cap", "Industry");
 	}
@@ -1183,6 +1184,108 @@ float simulation(string startDate, string endDate, float initialDeposit, vector<
 	return initialDeposit;
 }
 
+const int arrsize = 10;
+
+//{ 5, 10, 15, 20, 25, 30, 35, 40, 45, 50 };
+//{ 40, 35, 30, 25, 20, 25, 20, 15, 10, 5 };
+//{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+double stable = 0.1;
+double percentageInvestedAt[arrsize] = { stable, stable, stable, stable, stable, stable, stable, stable, stable, stable };
+
+//{ 0.05, 0.05, 0.05, 0.05, 0.10, 0.10, 0.10, 0.15, 0.15, 0.20 };
+//{ 0.20, 0.20, 0.15, 0.10, 0.10, 0.05, 0.05, 0.05, 0.05, 0.05 };
+//{ 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10 };
+double percentageSharesInvested[arrsize] = { 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10 };
+
+double maxInvestRet = 0;
+
+void backtest() {
+
+	string startDate = "2008-11-06";
+	string endDate = "2018-03-28";
+
+	for (unsigned int i = 0; i < equities.size(); i++) {
+		for (unsigned int d = 0; d < equities[i].volume.size(); d++) {
+			if (equities[i].date[d] == startDate) {
+				equities[i].d = d;
+				break;
+			}
+		}
+	}
+
+	int spxl = 0;
+	int spy = 1;
+	int sqqq = 2;
+
+	int selectedEtf = spxl;
+
+	int percentageHasBeenInvested[arrsize] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	double const start = 1000;
+
+	double startingInvestmentBank = 1000;
+	double modifiedBank = 1000;
+	double investedSharesInEtf = 0;
+
+	string startDip = startDate;
+
+	double etfPriceHigh = equities[selectedEtf].close[equities[selectedEtf].d - 1];
+
+	for (unsigned int d = equities[selectedEtf].d; equities[selectedEtf].date[d] != endDate; d++) {
+		if (equities[selectedEtf].close[d] > etfPriceHigh) {
+
+			if (investedSharesInEtf != 0) {
+
+				startingInvestmentBank = modifiedBank + (investedSharesInEtf * equities[selectedEtf].close[d]);
+				modifiedBank = startingInvestmentBank;
+
+				for (int i = 0; i < arrsize; i++)
+					percentageHasBeenInvested[i] = 0;
+
+				//cout << "dip from " + startDip + " to " + equities[selectedEtf].date[d] << endl;
+				//cout << "share price: " << endl;
+				//cout << equities[selectedEtf].close[d] << endl;
+				//cout << "total profit: " << endl;
+				//cout << modifiedBank << endl;
+				//cout << endl;
+
+			}
+			investedSharesInEtf = 0;
+			etfPriceHigh = equities[selectedEtf].close[d];
+
+			startDip = equities[selectedEtf].date[d];
+		}
+		else {
+			double percentageCurr = 100.0 * (1.0 - (equities[selectedEtf].close[d] / etfPriceHigh));
+
+			for (int i = 0; i < arrsize; i++) {
+				if (percentageCurr > percentageInvestedAt[i] && percentageHasBeenInvested[i] == 0) {
+					percentageHasBeenInvested[i] = 1;
+
+					investedSharesInEtf += (startingInvestmentBank * percentageSharesInvested[i]) / equities[selectedEtf].close[d];
+					modifiedBank -= startingInvestmentBank * percentageSharesInvested[i];
+				}
+			}
+
+			//if below percentage trigger
+			//then invest
+		}
+	}
+
+	if (startingInvestmentBank > maxInvestRet) {
+		cout << "percentageInvestedAt: " << endl;
+		cout << percentageInvestedAt[0] << ", " << percentageInvestedAt[1] << ", " << percentageInvestedAt[2] << ", " << percentageInvestedAt[3] << ", " << percentageInvestedAt[4] << ", " <<
+			percentageInvestedAt[5] << ", " << percentageInvestedAt[6] << ", " << percentageInvestedAt[7] << ", " << percentageInvestedAt[8] << ", " << percentageInvestedAt[9] << endl;
+		maxInvestRet = startingInvestmentBank;
+		cout << "total gain: " << endl;
+		cout << startingInvestmentBank / start << endl;
+		cout << endl;
+	}
+
+	//cout << "total gain: " << endl;
+	//cout << startingInvestmentBank / start << endl;
+}
+
 int main() {
 
 	//create a slider
@@ -1197,25 +1300,163 @@ int main() {
 
 	//when testing, don't buy in if volume < 1,000,000
 
-	string specificEquity = "amd.us.txt";
+	string specificEquity = "tqqq.us.txt";
 	specificEquity = "";
-	
+
 	//stock
-	loadEquityFolder("C:\\Users\\benlo\\Documents\\Stock Data\\data\\daily\\us\\nasdaq stocks\\1\\", "stock", specificEquity);
-	loadEquityFolder("C:\\Users\\benlo\\Documents\\Stock Data\\data\\daily\\us\\nasdaq stocks\\2\\", "stock", specificEquity);
-	loadEquityFolder("C:\\Users\\benlo\\Documents\\Stock Data\\data\\daily\\us\\nyse stocks\\1\\", "stock", specificEquity);
-	loadEquityFolder("C:\\Users\\benlo\\Documents\\Stock Data\\data\\daily\\us\\nyse stocks\\2\\", "stock", specificEquity);
+	loadEquityFolder("C:\\Github\\stockbacktester-master\\daily\\test etfs\\", "etf", specificEquity);
+	//loadEquityFolder("C:\\Github\\stockbacktester-master\\daily\\us\\nasdaq etfs\\2\\", "etf", specificEquity);
+	//loadEquityFolder("C:\\Github\\stockbacktester-master\\daily\\nyse etfs\\", "etf", specificEquity);
+	//loadEquityFolder("C:\\Github\\stockbacktester-master\\daily\\us\\nyse etfs\\2\\", "etf", specificEquity);
 
 	//index
 	//loadEquityFolder("C:\\Users\\benlo\\Documents\\Stock Data\\data\\daily\\us\\nasdaq etfs\\", "etf", specificEquity);
 	//loadEquityFolder("C:\\Users\\benlo\\Documents\\Stock Data\\data\\daily\\us\\nyse etfs\\", "etf", specificEquity);
-	
+
 	equities.insert(equities.end(), stocks.begin(), stocks.end());
 	equities.insert(equities.end(), etfs.begin(), etfs.end());
 
+	/*
 
-	loadEODLatestData("C:\\Users\\benlo\\Documents\\Stock Data\\data\\daily\\eodNYSE\\");
-	loadEODLatestData("C:\\Users\\benlo\\Documents\\Stock Data\\data\\daily\\eodNASDAQ\\");
+	string startDate = "2010-02-12";
+	string endDate = "2018-03-28";
+
+	for (unsigned int i = 0; i < equities.size(); i++) {
+		for (unsigned int d = 0; d < equities[i].volume.size(); d++) {
+			if (equities[i].date[d] == startDate) {
+				equities[i].d = d;
+				break;
+			}
+		}
+	}
+
+	int spxl = 0;
+	int spy = 1;
+	int tqqq = 2;
+
+	int selectedEtf = tqqq;
+
+
+
+	int percentageHasBeenInvested[arrsize] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	double const start = 1000;
+
+	double startingInvestmentBank = 1000;
+	double modifiedBank = 1000;
+	double investedSharesInEtf = 0;
+
+	string startDip = startDate;
+
+	double etfPriceHigh = equities[selectedEtf].close[equities[selectedEtf].d - 1];
+
+	for (unsigned int d = equities[selectedEtf].d; equities[selectedEtf].date[d] != endDate; d++) {
+		if (equities[selectedEtf].close[d] > etfPriceHigh) {
+
+			if (investedSharesInEtf != 0) {
+
+				startingInvestmentBank = modifiedBank + (investedSharesInEtf * equities[selectedEtf].close[d]);
+				modifiedBank = startingInvestmentBank;
+
+				for (int i = 0; i < arrsize; i++)
+					percentageHasBeenInvested[i] = 0;
+
+				cout << "dip from " + startDip + " to " + equities[selectedEtf].date[d] << endl;
+				cout << "share price: " << endl;
+				cout << equities[selectedEtf].close[d] << endl;
+				cout << "total profit: " << endl;
+				cout << modifiedBank << endl;
+				cout << endl;
+
+			}
+			investedSharesInEtf = 0;
+			etfPriceHigh = equities[selectedEtf].close[d];
+
+			startDip = equities[selectedEtf].date[d];
+		}
+		else {
+			double percentageCurr = 100.0 * (1.0 - (equities[selectedEtf].close[d] / etfPriceHigh));
+
+			for (int i = 0; i < arrsize; i++) {
+				if (percentageCurr > percentageInvestedAt[i] && percentageHasBeenInvested[i] == 0) {
+					percentageHasBeenInvested[i] = 1;
+
+					investedSharesInEtf += (startingInvestmentBank * percentageSharesInvested[i]) / equities[selectedEtf].close[d];
+					modifiedBank -= startingInvestmentBank * percentageSharesInvested[i];
+				}
+			}
+
+			//if below percentage trigger
+			//then invest
+		}
+	}
+
+	cout << "total gain: " << endl;
+	cout << startingInvestmentBank / start << endl;
+	
+
+	system("PAUSE");
+	return 0;
+	*/
+	srand(time(NULL));
+
+	int maxVal = 10;
+
+	stable = 0.1;
+
+	for (double i = 0.1; i < 10; i += 0.1) {
+		backtest();
+		stable = i;
+		percentageInvestedAt[0] = stable;
+		percentageInvestedAt[1] = stable;
+		percentageInvestedAt[2] = stable;
+		percentageInvestedAt[3] = stable;
+		percentageInvestedAt[4] = stable;
+		percentageInvestedAt[5] = stable;
+		percentageInvestedAt[6] = stable;
+		percentageInvestedAt[7] = stable;
+		percentageInvestedAt[8] = stable;
+		percentageInvestedAt[9] = stable;
+	}
+
+	system("PAUSE");
+	return 0;
+
+	for (int a = 1; a < maxVal; a++) {
+		cout << "t1" << endl;
+		for (int b = 1; b < maxVal; b++)
+			for (int c = 1; c < maxVal; c++)
+				for (int d = 1; d < maxVal; d++)
+					for (int e = 1; e < maxVal; e++) {
+						cout << "t2" << endl;
+						for (int f = 1; f < maxVal; f++)
+							for (int g = 1; g < maxVal; g++)
+								for (int h = 1; h < maxVal; h++)
+									for (int i = 1; i < maxVal; i++)
+										for (int j = 1; j < maxVal; j++) {
+											//rand() % 50 + 1;
+											percentageInvestedAt[0] = a;
+											percentageInvestedAt[1] = b;
+											percentageInvestedAt[2] = c;
+											percentageInvestedAt[3] = d;
+											percentageInvestedAt[4] = e;
+											percentageInvestedAt[5] = f;
+											percentageInvestedAt[6] = g;
+											percentageInvestedAt[7] = h;
+											percentageInvestedAt[8] = i;
+											percentageInvestedAt[9] = j;
+
+											backtest();
+										}
+					}
+	}
+
+	
+	system("PAUSE");
+	return 0;
+	
+	//loadEODLatestData("C:\\Github\\stockbacktester-master\\daily\\eodNYSE\\");
+	//loadEODLatestData("C:\\Github\\stockbacktester-master\\daily\\eodNASDAQ\\");
 
 	int averageDays = 0;
 	for (int d = 0; d < equities.size(); d++) {
